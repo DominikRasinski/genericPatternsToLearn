@@ -1,0 +1,1 @@
+# Repozytorium porusza zasady podstawowych wzorców projektowych, które warto znać jak implementować
