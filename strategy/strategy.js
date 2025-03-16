@@ -1,41 +1,40 @@
-var Context = /** @class */ (function () {
-    function Context(strategy) {
+"use strict";
+class Context {
+    _strategy;
+    constructor(strategy) {
         this._strategy = strategy;
     }
-    Context.prototype.setStrategy = function (strategy) {
+    setStrategy(strategy) {
         this._strategy = strategy;
-    };
-    Context.prototype.executeStrategy = function (a, b) {
+    }
+    executeStrategy(a, b) {
         return this._strategy.execute(a, b);
-    };
-    return Context;
-}());
-var StrategyAdd = /** @class */ (function () {
-    function StrategyAdd() {
     }
-    StrategyAdd.prototype.execute = function (a, b) {
+}
+class StrategyAdd {
+    execute(a, b) {
         if (typeof a === "number" && typeof b === "number") {
             console.log(a + b);
         }
-    };
-    return StrategyAdd;
-}());
-var StrategySubtract = /** @class */ (function () {
-    function StrategySubtract() {
     }
-    StrategySubtract.prototype.execute = function (a, b) {
+}
+class StrategySubtract {
+    execute(a, b) {
         if (typeof a === "number" && typeof b === "number") {
             console.log(a - b);
         }
-    };
-    return StrategySubtract;
-}());
-var App = /** @class */ (function () {
-    function App(firstNumber, secondNumber, strategyType) {
+    }
+}
+class App {
+    context;
+    firstNumber;
+    secondNumber;
+    strategyType;
+    constructor(firstNumber, secondNumber, strategyType) {
         this.firstNumber = firstNumber;
         this.secondNumber = secondNumber;
         this.strategyType = strategyType;
-        // Initialize context with the appropriate strategy
+        // inicjalizacja kontekstu z poprawną strategią
         if (this.strategyType === "add") {
             this.context = new Context(new StrategyAdd());
         }
@@ -43,13 +42,12 @@ var App = /** @class */ (function () {
             this.context = new Context(new StrategySubtract());
         }
     }
-    App.prototype.main = function () {
+    main() {
         this.context.executeStrategy(this.firstNumber, this.secondNumber);
-    };
-    return App;
-}());
-// Example usage
-var app = new App(5, 3, "add");
-app.main(); // Output: 8
-var app2 = new App(5, 3, "subtract");
-app2.main(); // Output: 2
+    }
+}
+// Przykładowe użycie
+const app = new App(5, 3, "add");
+app.main(); // 8
+const app2 = new App(5, 3, "subtract");
+app2.main(); // 2

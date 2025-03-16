@@ -55,3 +55,24 @@ class ConcreteStrategyA implements Strategy {
 const context = new Context(new ConcreteStrategyA());
 context.runAlgorithm();
 ```
+
+## Wzorzec Dekorator
+
+Dekorator to strukturalny wzorzec projektowy pozwalający dodawać nowe obowiązki obiektom poprzez umieszczenie tych obiektów w specjalnych obiektach opakowujących, które zawierają odpowiednie zachowania.
+
+Aby skorzystać z wzorca dekoratora:
+
+1. Interfejs wspólny dla nakładek jak i opakowanych obiektów
+   1. Stanowi podstawę dla wszystkich klas w systemie
+2. Klasa konkretnego komponentu
+   1. implementuje podstawowe zachowanie
+   2. stanowi bazę dla wszystkich dekoracji
+3. Klasa bazowe dekoratora
+   1. Zawiera referencję do opakowywanego obiektu
+   2. Pośredniczy między klientem a opakowanym obiektem
+4. Konkretni dekoratorzy
+   1. Rozszerzają klasą bazowego dekoratora
+   2. Dodają swoją funkcjonalność przed lub po wywołaniu metod opakowanego obiektu
+   3. Implementują dodatkowe zachowania według potrzeb
+   
+TODO: dorobić przykładowy kod TS dla implementacji dekoratora
