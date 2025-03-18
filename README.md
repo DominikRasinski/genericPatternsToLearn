@@ -62,17 +62,28 @@ Dekorator to strukturalny wzorzec projektowy pozwalający dodawać nowe obowiąz
 
 Aby skorzystać z wzorca dekoratora:
 
+**Opis syntetyczny**
 1. Interfejs wspólny dla nakładek jak i opakowanych obiektów
    1. Stanowi podstawę dla wszystkich klas w systemie
-2. Klasa konkretnego komponentu
+2. Klasa konkretnego komponentu - **klasa do udekorowania**
    1. implementuje podstawowe zachowanie
    2. stanowi bazę dla wszystkich dekoracji
-3. Klasa bazowe dekoratora
+3. Klasa `bazowa dekoratora` - **interfejs dla dekoratorów udostępniający kontekst komponentu**
    1. Zawiera referencję do opakowywanego obiektu
    2. Pośredniczy między klientem a opakowanym obiektem
-4. Konkretni dekoratorzy
+4. Konkretni dekoratorzy - **klasa dokorująca, dziedzicząca kontekst po `bazowa dekoratora`**
    1. Rozszerzają klasą bazowego dekoratora
    2. Dodają swoją funkcjonalność przed lub po wywołaniu metod opakowanego obiektu
    3. Implementują dodatkowe zachowania według potrzeb
    
-TODO: dorobić przykładowy kod TS dla implementacji dekoratora
+**Opis zrozumiały**
+1. Definicja interfejsu który będzie gwarantować że zaimplementujemy metody/pola które będziemy mogli póżniej przykryć `dekoratorami`
+2. Definicja `głównej klasy dekoratora`, która **będzie działać jako interfejs** dla wyspecjalizowanych dekoratorów oraz będzie przekazywać kontekst
+   1. definiuje właściwość, która przyjmuje kontekst klasy do dekorowania 
+   2. może przekazać klasę nie zmienioną
+3. Definiowanie klasy `dekoratora`, która będzie dziedziczyć zachowanie klasy `głównej klasy dekoratora` dzięki czemu `dekorator` bedzie posiadać dostęp do kontekstu klasy która ma zostaś udekorowana.
+4. `Komponent` - to jest klasa która ma zostać udekorowana
+
+## Wzorzec Obserwator
+
+Wzorzec pozwalający na zdefiniowanie mechanizmu obserwacji danego obiektu i reagowanie na jego mutacje
