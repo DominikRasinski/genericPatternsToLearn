@@ -71,18 +71,63 @@ Aby skorzystać z wzorca dekoratora:
 3. Klasa `bazowa dekoratora` - **interfejs dla dekoratorów udostępniający kontekst komponentu**
    1. Zawiera referencję do opakowywanego obiektu
    2. Pośredniczy między klientem a opakowanym obiektem
-4. Konkretni dekoratorzy - **klasa dokorująca, dziedzicząca kontekst po `bazowa dekoratora`**
+4. Konkretni dekoratorzy - **klasa doorująca, dziedzicząca kontekst po `bazowa dekoratora`**
    1. Rozszerzają klasą bazowego dekoratora
    2. Dodają swoją funkcjonalność przed lub po wywołaniu metod opakowanego obiektu
    3. Implementują dodatkowe zachowania według potrzeb
    
 **Opis zrozumiały**
-1. Definicja interfejsu który będzie gwarantować że zaimplementujemy metody/pola które będziemy mogli póżniej przykryć `dekoratorami`
+1. Definicja interfejsu który będzie gwarantować że zaimplementujemy metody/pola które będziemy mogli później przykryć `dekoratorami`
 2. Definicja `głównej klasy dekoratora`, która **będzie działać jako interfejs** dla wyspecjalizowanych dekoratorów oraz będzie przekazywać kontekst
    1. definiuje właściwość, która przyjmuje kontekst klasy do dekorowania 
    2. może przekazać klasę nie zmienioną
-3. Definiowanie klasy `dekoratora`, która będzie dziedziczyć zachowanie klasy `głównej klasy dekoratora` dzięki czemu `dekorator` bedzie posiadać dostęp do kontekstu klasy która ma zostaś udekorowana.
+3. Definiowanie klasy `dekoratora`, która będzie dziedziczyć zachowanie klasy `głównej klasy dekoratora` dzięki czemu `dekorator` bedzie posiadać dostęp do kontekstu klasy która ma zostać udekorowana.
 4. `Komponent` - to jest klasa która ma zostać udekorowana
+
+Przykład interfejsu:
+
+```ts
+interface IAttack {
+    attack(): void;
+}
+```
+ `Komponent` - to jest klasa która ma zostać udekorowana
+```ts
+class Enemy implements IAttack {
+    name: string;
+
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    attack(): void {
+        console.log(`Wróg ${this.name} wykonuje atak!`);
+    }
+}
+```
+Definicja `głównej klasy dekoratora`
+```ts
+class MakeAttack implements IAttack {
+    protected wrap: IAttack;
+
+    constructor(wrap: IAttack) {
+        this.wrap = wrap;
+    }
+
+    attack() {
+        return this.wrap.attack();
+    }
+}
+```
+Definiowanie klasy `dekoratora`
+```ts
+class MakeAxeAttack extends MakeAttack {
+    attack(): void {
+        this.wrap.attack();
+        console.log("Atak siekierą");
+    }
+}
+```
 
 ## Wzorzec Obserwator
 
