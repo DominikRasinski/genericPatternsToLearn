@@ -132,3 +132,16 @@ class MakeAxeAttack extends MakeAttack {
 ## Wzorzec Obserwator
 
 Wzorzec pozwalający na zdefiniowanie mechanizmu obserwacji danego obiektu i reagowanie na jego mutacje
+
+### Opis
+
+Obiekt który posiada jakiś interesujący stan nazywa się **podmiotem** ale kiedy obiekt zacznie powiadamiać inne obiekty o zmianach swojego stanu zacznie się nazywać **publikującym**.
+Wszystkie pozostałe obiekty które chcą śledzić zmiany stanu nazywa się **subskrybentami**
+
+Wzorzec obserwator proponuje dodanie mechanizmu `subskrypcji` do klasy **publikującej** dzięki czemu pojedyncze obiekty będą mogły subskrybować lub przerywać subskrypcję zdarzeń obiektu **publikującego**.
+
+Implementacja mechanizmu składa się z:
+
+1. Pola tablicowego służącego przechowywaniu listy odniesień do subskrybentów.
+2. Metody publiczne pozwalające na dodawanie i usuwanie wpisów tej listy.
+
