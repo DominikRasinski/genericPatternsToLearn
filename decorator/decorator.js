@@ -5,7 +5,7 @@ class Enemy {
         this.name = name;
     }
     attack() {
-        console.log(`${this.name} wykonuje atak!`);
+        console.log(`Wróg ${this.name} wykonuje atak!`);
     }
 }
 // Klasa interfejs dla dekoratorow
