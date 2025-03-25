@@ -2,72 +2,81 @@
 // Subskrypcje
 // UnSub
 // Metode powiadomienia
-class EvenManager {
-    private listeners: Map<string, any> = new Map();
+interface Observer {
+    update(subject: Subject): void
+}
+interface Subject {
+    attach(observer: Observer): void;
+    detach(observer: Observer): void;
 
-    subscribe(eventType: string, listener: any) {
-        this.listeners.set(eventType, listener);
+    notify(observer: Observer): void;
+}
+
+class ConcreteSubject implements Subject {
+    private observers: Observer[] = [];
+    public state: number = 0;
+
+    public attach(observer: Observer): void {
+        const isExist = this.observers.includes(observer);
+        if (isExist) {
+            return console.log("Subject: Observer has been attached already");
+        }
+        console.log("Subject Attached an observer")
+        this.observers.push(observer)
     }
 
-    unSubscribe(eventType: string, listener: any) {
-        this.listeners.delete(listener);
+    public detach(observer: Observer): void {
+        const observerIndex = this.observers.indexOf(observer);
+        if(observerIndex == -1) {
+           return console.log("Subject nonexists") 
+        }
+        this.observers.splice(observerIndex, 1);
+        console.log("Detached");
     }
 
-    notify(eventType: string, data: any) {
-        const listener = this.listeners.get(eventType);
-        if(listener) {
-            listener(data);
+    public notify(): void {
+        console.log("Notyfying observers");
+        for(const observer of this.observers) {
+            observer.update(this);
+        }
+    }
+
+    public someBusinessLogic(): void {
+        console.log('\nSubject: I\'m doing something important.');
+        this.state = Math.floor(Math.random() * (10 + 1));
+
+        console.log(`Subject: My state has just changed to: ${this.state}`);
+        this.notify();
+    }
+}
+
+class ConcreteObserverA implements Observer {
+    public update(subject: Subject): void {
+        if (subject instanceof ConcreteSubject && subject.state < 3) {
+            console.log('ConcreteObserverA: Reacted to the event.');
         }
     }
 }
 
-class Editor {
-    events: EvenManager;
-    private eventName: string = '';
-
-    constructor(eventsManager: EvenManager) {
-        this.events = eventsManager;
-    }
-
-    openStatus(name: string) {
-        this.eventName = name;
-        this.events.notify("open", this.eventName);
-    }
-
-    closeStatus() {
-        this.events.notify("close", this.eventName);
-    }
-
-}
-
-interface EventListener {
-    update(name: string): string;
-}
-
-class LoggingListener {
-    private log: string;
-    private message: string;
-
-    constructor(log: string, message: string) {
-        this.log = log;
-        this.message = message;
-    }
-
-    update(name: string): string {
-        return name
+class ConcreteObserverB implements Observer {
+    public update(subject: Subject): void {
+        if (subject instanceof ConcreteSubject && (subject.state === 0 || subject.state >= 2)) {
+            console.log('ConcreteObserverB: Reacted to the event.');
+        }
     }
 }
 
-class EmailAlertListener {
-    private email: string;
-    private message: string;
+const subject = new ConcreteSubject();
 
-    constructor(email: string, message: string) {
-        this.email = email;
-        this.message = message;
-    }
+const observer1 = new ConcreteObserverA();
+subject.attach(observer1);
 
-    update(name: string): string {
-        return name
-    }
-}
+const observer2 = new ConcreteObserverB();
+subject.attach(observer2);
+
+subject.someBusinessLogic();
+subject.someBusinessLogic();
+
+subject.detach(observer2);
+
+subject.someBusinessLogic();
