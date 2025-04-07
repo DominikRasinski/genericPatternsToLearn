@@ -1,5 +1,45 @@
 # Repozytorium porusza zasady podstawowych wzorców projektowych, które warto znać jak implementować
 
+## Kompozycja
+
+Kompozycja w programowaniu jest to technika pozwalająca na bardziej elastyczne wykorzystanie kodu już stworzonego na przykład klasy wyspecjalizowanej w jednym kontekscie.
+
+Różnica pomiędzy kompozycją a dziedziczeniem jest taka:
+    - Kompozycja tworzy nową klase zwierająca inne klasy jako swoje składowe
+    - Dziedziczenie tworzy nową klasę bazującą na istniejącej klasie bazowej
+
+
+Komponent wyspecjalizowany w danej akcji
+```ts
+// definiowanie komponentu
+class Engine {
+    start(): void {
+        console.log("Engine started");
+    }
+}
+```
+
+Klasa bazowa która będzie uskuteczniać kompozycję poprzez wykorzystanie komponentu w danym przypadku
+```ts
+class Car {
+    private engine: Engine; //przygotowanie wlasciwosci jakiego typu ma sie spodziewac, lepiej by bylo wykorzystac interfejs niz typ klasy Engine
+
+    constructor(engine: Engine) {
+        this.engine = engine;
+    }
+
+    drive(): void {
+        this.engine.start(); // uruchomienie metody z komponentu
+        console.log("Car is driving");
+    }
+}
+
+// skonstruowanie obiektow
+const engine = new Engine();
+const car = new Car(engine);
+car.drive();
+```
+
 ## Wzorzec Strategia
 
 Jest to wzorzec pozwalający na prostsze rozwijanie kodu aplikacji poprzez dozielenie kontekstu od logiki.
@@ -144,4 +184,3 @@ Implementacja mechanizmu składa się z:
 
 1. Pola tablicowego służącego przechowywaniu listy odniesień do subskrybentów.
 2. Metody publiczne pozwalające na dodawanie i usuwanie wpisów tej listy.
-
